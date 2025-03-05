@@ -1,12 +1,12 @@
 import { Hono } from 'hono'
+import { cors } from 'hono/cors'
 import type { Context, Env } from 'hono';
 
 import { notes } from './db/schema';
 import { connectDB } from './db/connect';
+import { eq } from 'drizzle-orm';
 
 import { createNoteSchema, editNoteSchema, deleteNoteSchema } from './schemas';
-
-import { eq } from 'drizzle-orm';
 
 interface AppEnv extends Env {
   Bindings: {
@@ -15,6 +15,8 @@ interface AppEnv extends Env {
 }
 
 const app = new Hono<AppEnv>()
+
+app.use(cors())
 
 app.get('/notes' , async (c:Context<AppEnv>) => {
   try {
@@ -88,9 +90,9 @@ app.patch('/notes', async(c:Context<AppEnv>) => {
   }
 })
 
-app.delete('/notes', async(c:Context<AppEnv>) => {
+app.delete('/notes/:id', async(c:Context<AppEnv>) => {
   try {
-    const { id } = deleteNoteSchema.parse(await c.req.json())
+    const id = deleteNoteSchema.parse(c.req.param('id'))
 
     const db = connectDB(c.env.DB)
     const matchedNotes = await db.select().from(notes).where(eq(notes.id,id))

@@ -11,6 +11,4 @@ export const editNoteSchema = z.object({
     content: z.string()
 })
 
-export const deleteNoteSchema = z.object({
-    id: z.number(),
-})
+export const deleteNoteSchema = z.coerce.number()
