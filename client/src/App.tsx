@@ -12,15 +12,17 @@ const App = () => {
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-    <div className="w-100vw h-screen">
+    <div className="w-100vw h-screen flex">
     <SidebarProvider>
       <AppSidebar setNote={setCurrentNote} />
-        <SidebarTrigger />
+      <div className='w-full h-screen flex'>
+        <SidebarTrigger className='absolute' />
         {
         currentNote.id === -1?
           <Empty/>: 
           <Note note={currentNote} setNote={setCurrentNote}/>
         }
+      </div>
     </SidebarProvider>
     </div>
     </ThemeProvider>

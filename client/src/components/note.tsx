@@ -46,18 +46,18 @@ const Note = ({note, setNote}: {note: INote, setNote: React.Dispatch<SetStateAct
       }, [note, editNoteMutation.mutate]); 
 
     return (
-        <div className="flex flex-col w-full h-screen">
-            <div className='flex flex-row w-full h-[10%] items-end justify-end space-x-3 p-3'>
+        <div className="flex flex-col w-full h-full">
+            <div className='flex flex-row w-full h-[10%] items-end justify-end space-x-3 p-5'>
                 <EditToggle mode={mode} setMode={setMode}/>
                 <ThemeToggle/>
             </div>
 
             {mode === EditMode.read?
                 <>
-                    <div className='w-full h-1/6 flex flex-row items-center justify-start p-5 text-3xl md:text-2xl'>
-                        {note.title}
+                    <div className='w-full h-1/6 flex flex-row items-center justify-start p-5 text-4xl md:text-3xl px-10'>
+                        <p>{note.title}</p>
                     </div>
-                    <div className='w-full h-5/6 flex flex-row items-start justify-start p-5 text-xl md:text-lg'>
+                    <div className='w-full h-5/6 flex flex-row items-start justify-start p-5 text-xl md:text-lg px-10'>
                         {note.content === '' ? <p className='text-lg md:text-md text-gray-600'>This note has no content. Start editing by switching to edit mode.</p>: note.content}
                     </div>
                 </>
