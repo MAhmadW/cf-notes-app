@@ -3,7 +3,7 @@ import { useTheme } from "@/components/theme-provider"
 
 import { Moon, Sun } from "lucide-react"
 
-export function ThemeToggle() {
+const ThemeToggle = () => {
   const { setTheme, theme } = useTheme()
 
   const changeTheme = () => {
@@ -16,3 +16,5 @@ export function ThemeToggle() {
     </Toggle>
   )
 }
+
+export default ThemeToggle;

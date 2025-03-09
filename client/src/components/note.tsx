@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { ThemeToggle } from "./theme-toggle";
-import { EditToggle } from "./edit-toggle";
+import ThemeToggle from "./theme-toggle";
+import EditToggle from "./edit-toggle";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { editNote } from "@/services/notes";
