@@ -5,9 +5,10 @@ import { useState } from "react"
 
 import Note from "./components/note"
 import Empty from "./components/empty"
+import { emptyNote, INote } from "./types/notes"
 
-const App = ({ children }: { children: React.ReactNode }) => {
-  const [currentNote, setCurrentNote] = useState(null);
+const App = () => {
+  const [currentNote, setCurrentNote] = useState<INote>(emptyNote);
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
@@ -16,11 +17,10 @@ const App = ({ children }: { children: React.ReactNode }) => {
       <AppSidebar setNote={setCurrentNote} />
         <SidebarTrigger />
         {
-        currentNote === null?
+        currentNote.id === -1?
           <Empty/>: 
           <Note note={currentNote} setNote={setCurrentNote}/>
         }
-        {children}
     </SidebarProvider>
     </div>
     </ThemeProvider>

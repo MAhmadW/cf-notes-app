@@ -21,6 +21,8 @@ import {
 
 import { deleteNote, getNotes, newNote } from "@/services/notes"
 import { Skeleton } from "./skeleton"
+import { emptyNote, INote } from "@/types/notes"
+import { SetStateAction } from "react"
 
 const parseDate = (dateString: string) => {
     const d = new Date(dateString)
@@ -31,7 +33,7 @@ const parseDate = (dateString: string) => {
     })
 }
 
-export const AppSidebar = ({setNote}) => {
+export const AppSidebar = ({setNote}:{setNote: React.Dispatch<SetStateAction<INote>>}) => {
     const queryClient = useQueryClient()
 
     const notesQuery = useQuery({
@@ -51,7 +53,7 @@ export const AppSidebar = ({setNote}) => {
     },
     })
 
-    const onCreate = (event) => {
+    const onCreate = (event: React.SyntheticEvent) => {
         event.preventDefault()
         createNewNoteMutation.mutate()
     }
@@ -59,7 +61,7 @@ export const AppSidebar = ({setNote}) => {
     const deleteNoteMutation = useMutation({
         mutationFn: deleteNote,
         onMutate: () => {
-          setNote(null)
+          setNote(emptyNote)
         },
         onSuccess: () => {
             // Invalidate and refetch
@@ -73,7 +75,7 @@ export const AppSidebar = ({setNote}) => {
           <SidebarGroupLabel>Notes</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {notesQuery.isPending || notesQuery.isFetching || createNewNoteMutation.isPending || deleteNoteMutation.isPending? <div className="space-y-2"><Skeleton className="w-full h-6"/> <Skeleton className="w-full h-6"/> <Skeleton className="w-full h-6"/> </div>: notesQuery.data.notes.map((note) => (
+              {notesQuery.isPending || notesQuery.isFetching || createNewNoteMutation.isPending || deleteNoteMutation.isPending? <div className="space-y-2"><Skeleton className="w-full h-6"/> <Skeleton className="w-full h-6"/> <Skeleton className="w-full h-6"/> </div>: notesQuery.data.notes.map((note: INote) => (
                 <SidebarMenuItem key={note.id} onClick={()=>{setNote(note)}}>
                   <SidebarMenuButton asChild className='hover:cursor-pointer' >
                     <div className='flex flex-row items-center justify-between'><div className='flex flex-row items-start justify-start'>{note.title.slice(0,10)} {note.title.slice(0,10)!==note.title? <p className='text-gray-600'>...</p>: ''}</div> 

@@ -1,16 +1,18 @@
 import { Toggle } from "@/components/ui/toggle"
+import { EditMode } from "@/types/notes";
 
 import { Book, Pen } from "lucide-react"
+import { SetStateAction } from "react";
 
-const EditToggle = ({mode, setMode}) => {
+const EditToggle = ({mode, setMode} : {mode: EditMode, setMode: React.Dispatch<SetStateAction<EditMode>>})  => {
 
   const changeTheme = () => {
-    if (mode === 'read') {setMode('edit') } else {setMode('read')}
+    if (mode === EditMode.read) {setMode(EditMode.edit) } else {setMode(EditMode.read)}
   };
 
   return (
     <Toggle onPressedChange={changeTheme}>
-      {mode === 'read' ? <Book/> : <Pen/>}
+      {mode === EditMode.read ? <Book/> : <Pen/>}
     </Toggle>
   )
 }

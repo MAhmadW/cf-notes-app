@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, SetStateAction } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import ThemeToggle from "./theme-toggle";
@@ -6,12 +6,13 @@ import EditToggle from "./edit-toggle";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { editNote } from "@/services/notes";
+import { EditMode, INote } from "@/types/notes";
 
 const debounceTime = 1000;
 
-const Note = ({note, setNote}) => {
+const Note = ({note, setNote}: {note: INote, setNote: React.Dispatch<SetStateAction<INote>>}) => {
     const queryClient = useQueryClient()
-    const [mode, setMode] = useState('read')
+    const [mode, setMode] = useState(EditMode.read)
 
     const [dirty, setDirty] = useState(false)
 
@@ -23,13 +24,13 @@ const Note = ({note, setNote}) => {
         },
         })
 
-    const onTitleChange = (e) => {
-        setNote((prev) =>({...prev, title: e.target.value}))
+    const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setNote((prev: INote) =>({...prev, title: event.target.value}))
         setDirty(true)
     };
 
-    const onContentChange = (e) => {
-        setNote((prev) =>({...prev, content: e.target.value}))
+    const onContentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setNote((prev: INote) =>({...prev, content: event.target.value}))
         setDirty(true)
     };
 
@@ -51,7 +52,7 @@ const Note = ({note, setNote}) => {
                 <ThemeToggle/>
             </div>
 
-            {mode === 'read'?
+            {mode === EditMode.read?
                 <>
                     <div className='w-full h-1/6 flex flex-row items-center justify-start p-5 text-3xl md:text-2xl'>
                         {note.title}
